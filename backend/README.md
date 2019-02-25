@@ -12,12 +12,12 @@ gcloud container clusters create bolg \
 
 Build the docker image via:
 ```
-docker build -t gcr.io/bolg-229922/bolg .
+docker build -t gcr.io/bolg-229922/finalfour .
 ```
 
 Push this docker image to the container registry via
 ```
-gcloud docker -- push gcr.io/bolg-229922/bolg
+gcloud docker -- push gcr.io/bolg-229922/finalfour
 ```
 
 Use kubectl to deploy resources to the cluster for the frontend:
@@ -37,5 +37,5 @@ kubectl get pods
 
 The status of the service can be monitored via:
 ```
-kubectl describe service bolg-frontend
+kubectl describe service finalfour-frontend
 ```

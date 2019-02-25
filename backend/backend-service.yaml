@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: bolg
+  name: finalfour
 spec:
   selector:
-    app: bolg
+    app: finalfour
     tier: backend
   ports:
   - protocol: TCP

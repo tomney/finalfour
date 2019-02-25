@@ -7,7 +7,7 @@ import { AppService } from './app.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-bolg';
+  title = 'angular-finalfour';
   greeting = '';
 
   constructor(private appService: AppService){}

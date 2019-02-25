@@ -1,4 +1,4 @@
-# AngularBolg
+# AngularFinalfour
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
 
@@ -27,31 +27,19 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ## Deploy with Google Kubernetes Engine
-Create a kubernetes cluster with the following command:
-```
-gcloud container clusters create angular-bolg \
-    --scopes "cloud-platform" \
-    --machine-type=g1-small \
-    --num-nodes 1 \
-    --enable-basic-auth \
-    --issue-client-certificate \
-    --enable-ip-alias \
-    --zone northamerica-northeast1-a
-```
-
 You should be able to build the container using 
 ```
-docker build -t gcr.io/angular-bolg/angular-bolg .
+docker build -t gcr.io/bolg-229922/angular-finalfour .
 ```
 
 To run locally use:
 ```
-docker run -d -p 8080:80 gcr.io/angular-bolg/angular-bolg 
+docker run -d -p 8080:80 gcr.io/bolg-229922/angular-finalfour 
 ```
 
 Push this docker image to the container registry via
 ```
-gcloud docker -- push gcr.io/angular-bolg/angular-bolg
+gcloud docker -- push gcr.io/bolg-229922/angular-finalfour
 ```
 
 Use kubectl to deploy resources to the cluster for the frontend:
@@ -66,7 +54,7 @@ kubectl get pods
 
 The status of the service can be monitored via:
 ```
-kubectl describe service angular-bolg
+kubectl describe service angular-finalfour
 ```
 
 To allow traffic to the nodes, run 

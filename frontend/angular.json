@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-bolg": {
+    "angular-finalfour": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-bolg",
+            "outputPath": "dist/angular-finalfour",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-bolg:build"
+            "browserTarget": "angular-finalfour:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-bolg:build:production"
+              "browserTarget": "angular-finalfour:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-bolg:build"
+            "browserTarget": "angular-finalfour:build"
           }
         },
         "test": {
@@ -95,7 +95,7 @@
         }
       }
     },
-    "angular-bolg-e2e": {
+    "angular-finalfour-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -103,11 +103,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular-bolg:serve"
+            "devServerTarget": "angular-finalfour:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular-bolg:serve:production"
+              "devServerTarget": "angular-finalfour:serve:production"
             }
           }
         },
@@ -123,5 +123,5 @@
       }
     }
   },
-  "defaultProject": "angular-bolg"
+  "defaultProject": "angular-finalfour"
 }

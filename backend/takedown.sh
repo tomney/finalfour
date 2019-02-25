@@ -1,5 +1,5 @@
 # Delete the backend deployment
-kubectl delete deployment bolg
+kubectl delete deployment finalfour
 
 # Delete the backend service
-kubectl delete service bolg
+kubectl delete service finalfour

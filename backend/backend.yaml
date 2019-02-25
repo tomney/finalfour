@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bolg
+  name: finalfour
 spec:
   selector:
     matchLabels:
-      app: bolg
+      app: finalfour
       tier: backend
       track: stable
   replicas: 1
   template:
     metadata:
       labels:
-        app: bolg
+        app: finalfour
         tier: backend
         track: stable
     spec:
       containers:
-        - name: bolg
-          image: "gcr.io/bolg-229922/bolg:latest"
+        - name: finalfour
+          image: "gcr.io/bolg-229922/finalfour:latest"
           command: ["app"]
           ports:
             - name: http

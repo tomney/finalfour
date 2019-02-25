@@ -4,9 +4,9 @@ metadata:
   name: frontend
 spec:
   selector:
-    app: bolg
+    app: finalfour
     tier: frontend
-    run: angular-bolg
+    run: angular-finalfour
   ports: 
   - protocol: "TCP"
     port: 80
@@ -20,20 +20,20 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: bolg
+      app: finalfour
       tier: frontend
       track: stable
   replicas: 1
   template:
     metadata:
       labels:
-        app: bolg
+        app: finalfour
         tier: frontend
         track: stable
-        run: angular-bolg
+        run: angular-finalfour
     spec:
       containers:
-      - name: angular-bolg
-        image: gcr.io/bolg-229922/angular-bolg:latest
+      - name: angular-finalfour
+        image: gcr.io/bolg-229922/angular-finalfour:latest
         ports:
         - containerPort: 80
