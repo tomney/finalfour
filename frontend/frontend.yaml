@@ -4,7 +4,7 @@ metadata:
   name: frontend
 spec:
   selector:
-    app: bolg-backend
+    app: bolg
     tier: frontend
     run: angular-bolg
   ports: 
@@ -20,14 +20,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: bolg-backend
+      app: bolg
       tier: frontend
       track: stable
   replicas: 1
   template:
     metadata:
       labels:
-        app: bolg-backend
+        app: bolg
         tier: frontend
         track: stable
         run: angular-bolg

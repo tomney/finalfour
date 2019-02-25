@@ -1,12 +1,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: bolg-backend
+  name: bolg
 spec:
   selector:
-    app: bolg-backend
+    app: bolg
     tier: backend
   ports:
   - protocol: TCP
     port: 80
-    targetPort: http-bolg
+    targetPort: http

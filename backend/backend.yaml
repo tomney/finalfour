@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bolg-backend
+  name: bolg
 spec:
   selector:
     matchLabels:
-      app: bolg-backend
+      app: bolg
       tier: backend
       track: stable
   replicas: 1
   template:
     metadata:
       labels:
-        app: bolg-backend
+        app: bolg
         tier: backend
         track: stable
     spec:
       containers:
-        - name: bolg-backend
-          image: "gcr.io/bolg-229922/bolg-backend:latest"
+        - name: bolg
+          image: "gcr.io/bolg-229922/bolg:latest"
           command: ["app"]
           ports:
-            - name: http-bolg
+            - name: http
               containerPort: 80
