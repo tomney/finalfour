@@ -3,6 +3,7 @@ import { Team } from '../team'
 import { TeamsService } from '../teams.service'
 import { FinalFourSelection } from './final-four-selection'
 import { MatCheckboxChange } from '@angular/material'
+import { MatSnackBar } from '@angular/material'
 
 @Component({
   selector: 'app-four-selector',
@@ -12,7 +13,7 @@ import { MatCheckboxChange } from '@angular/material'
 export class FourSelectorComponent implements OnInit {
   teams: Team[]
   finalFourSelection: FinalFourSelection
-  constructor(private teamsService: TeamsService) { }
+  constructor(private teamsService: TeamsService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.getTeams();
@@ -34,13 +35,28 @@ export class FourSelectorComponent implements OnInit {
   }
 
   addSelection(team: Team): void {
-    this.finalFourSelection.teams.push(team);
-    if(this.finalFourSelection.teams.length > 4){
-      this.finalFourSelection.teams.shift()
-    }
+    if(this.finalFourSelection.teams.length >= 4){
+      this.showSnackBar();
+    } else {
+      this.finalFourSelection.teams.push(team);
+    }    
   }
 
   removeSelection(team: Team): void {
     this.finalFourSelection.teams = this.finalFourSelection.teams.filter(t => t != team)
+  }
+
+  showSnackBar(): void {
+    this.snackBar.open("You can only select four teams", "ERROR", {
+      duration: 2000,
+    });
+  }
+
+  selectionIsFull(): boolean {
+    return this.finalFourSelection.teams.length == 4;
+  }
+
+  teamIsSelected(team: Team): boolean {
+    return this.finalFourSelection.teams.indexOf(team)!==-1;
   }
 }

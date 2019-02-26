@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { MatCardModule, MatButtonModule, MatCheckboxModule } from '@angular/material'
+import { MatCardModule, MatButtonModule, MatCheckboxModule, MatSnackBarModule} from '@angular/material'
 import { AppComponent } from './app.component';
 import { AppService } from './app.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,7 +21,8 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     MatCardModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule
   ],
   providers: [AppService],
   bootstrap: [AppComponent]
