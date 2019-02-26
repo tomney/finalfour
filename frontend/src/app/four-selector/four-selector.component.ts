@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Team } from '../team'
-import { TeamsService } from '../teams.service'
-import { FinalFourSelection } from './final-four-selection'
-import { MatCheckboxChange } from '@angular/material'
-import { MatSnackBar } from '@angular/material'
+import { Team } from '../team';
+import { TeamsService } from '../teams.service';
+import { FinalFourSelection } from './final-four-selection';
+import { MatCheckboxChange } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
+import { FormControl } from '@angular/forms';
+import { FinalFourService } from '../final-four.service';
 
 @Component({
   selector: 'app-four-selector',
@@ -11,13 +13,20 @@ import { MatSnackBar } from '@angular/material'
   styleUrls: ['./four-selector.component.css']
 })
 export class FourSelectorComponent implements OnInit {
-  teams: Team[]
-  finalFourSelection: FinalFourSelection
-  constructor(private teamsService: TeamsService, private snackBar: MatSnackBar) { }
+  teams: Team[];
+  email = new FormControl('');
+  finalFourSelection = new FinalFourSelection;
+
+  constructor(
+    private teamsService: TeamsService, 
+    private snackBar: MatSnackBar, 
+    private finalFourService: FinalFourService
+  ) { }
 
   ngOnInit() {
     this.getTeams();
-    this.finalFourSelection = {email: '', teams: []};
+    this.finalFourSelection.email = "";
+    this.finalFourSelection.teams = [];
   }
 
   getTeams(): void {
@@ -35,19 +44,17 @@ export class FourSelectorComponent implements OnInit {
   }
 
   addSelection(team: Team): void {
-    if(this.finalFourSelection.teams.length >= 4){
-      this.showSnackBar();
-    } else {
+    if(this.finalFourSelection.teams.length < 4){
       this.finalFourSelection.teams.push(team);
-    }    
+    }
   }
 
   removeSelection(team: Team): void {
     this.finalFourSelection.teams = this.finalFourSelection.teams.filter(t => t != team)
   }
 
-  showSnackBar(): void {
-    this.snackBar.open("You can only select four teams", "ERROR", {
+  showSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
       duration: 2000,
     });
   }
@@ -58,5 +65,18 @@ export class FourSelectorComponent implements OnInit {
 
   teamIsSelected(team: Team): boolean {
     return this.finalFourSelection.teams.indexOf(team)!==-1;
+  }
+
+  submit(): void {
+    this.finalFourSelection.email = this.email.value;
+    let{ valid, err } = this.finalFourSelection.validate();
+    if(valid !== true){
+      this.showSnackBar(err, "ERROR")
+    } else {
+      this.finalFourService.submitSelection(this.finalFourSelection).subscribe(
+        success => this.showSnackBar("Picks submitted!", "SUCCESS"),
+        err => this.showSnackBar("An error occurred submitting the picks", "ERROR")
+      );
+    }
   }
 }
