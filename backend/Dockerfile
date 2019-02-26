@@ -1,6 +1,6 @@
 FROM golang:alpine
 
-ARG pkg=github.com/tomney/finalfour
+ARG pkg=github.com/tomney/angular-go-webapp/backend
 
 RUN apk add --no-cache ca-certificates
 
