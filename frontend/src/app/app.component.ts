@@ -13,16 +13,7 @@ export class AppComponent {
   constructor(private appService: AppService){}
 
   ngOnInit(){
-    this.showGreeting();
   }
 
-  showGreeting(): void {
-    this.appService.getGreeting().subscribe(
-      data => {
-        console.log("The return from our endpoint: ", data)
-        this.greeting = data["greeting"]
-      },
-      err => console.log("The endpoint returned an error: ", err)
-    )
-  };
+  
 }
