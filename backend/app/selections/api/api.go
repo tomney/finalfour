@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/tomney/angular-go-webapp/backend/app/handler"
-	model "github.com/tomney/angular-go-webapp/backend/app/selections"
-	"github.com/tomney/angular-go-webapp/backend/app/selections/service"
+	"github.com/tomney/finalfour/backend/app/handler"
+	model "github.com/tomney/finalfour/backend/app/selections"
+	"github.com/tomney/finalfour/backend/app/selections/service"
 )
 
 // Interface implements the methods to interact with selections

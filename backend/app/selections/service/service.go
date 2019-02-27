@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/tomney/angular-go-webapp/backend/app/selections"
-	"github.com/tomney/angular-go-webapp/backend/app/selections/repository"
+	"github.com/tomney/finalfour/backend/app/selections"
+	"github.com/tomney/finalfour/backend/app/selections/repository"
 )
 
 // Interface implements the methods to interact with selections

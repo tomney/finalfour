@@ -3,7 +3,7 @@ package repository
 import (
 	"log"
 
-	"github.com/tomney/angular-go-webapp/backend/app/selections"
+	"github.com/tomney/finalfour/backend/app/selections"
 )
 
 // Interface implements the methods to store data/ mutate stored data for selections

@@ -8,10 +8,10 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/tomney/angular-go-webapp/backend/app/handler"
-	selectionsapi "github.com/tomney/angular-go-webapp/backend/app/selections/api"
-	selectionsrepo "github.com/tomney/angular-go-webapp/backend/app/selections/repository"
-	selectionsservice "github.com/tomney/angular-go-webapp/backend/app/selections/service"
+	"github.com/tomney/finalfour/backend/app/handler"
+	selectionsapi "github.com/tomney/finalfour/backend/app/selections/api"
+	selectionsrepo "github.com/tomney/finalfour/backend/app/selections/repository"
+	selectionsservice "github.com/tomney/finalfour/backend/app/selections/service"
 )
 
 //Tentative main
