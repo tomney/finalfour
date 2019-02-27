@@ -9,7 +9,9 @@ import (
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/tomney/angular-go-webapp/backend/app/handler"
-	"github.com/tomney/angular-go-webapp/backend/app/selections"
+	selectionsapi "github.com/tomney/angular-go-webapp/backend/app/selections/api"
+	selectionsrepo "github.com/tomney/angular-go-webapp/backend/app/selections/repository"
+	selectionsservice "github.com/tomney/angular-go-webapp/backend/app/selections/service"
 )
 
 //Tentative main
@@ -22,16 +24,25 @@ func main() {
 		port = p
 	}
 
+	// Repository Layers
+	selectionsRepo := selectionsrepo.NewRepository("")
+
+	// Service Layers
+	selectionsService := selectionsservice.NewService(selectionsRepo)
+
+	// Handler Layers
+	selectionsAPI := selectionsapi.NewHandler(selectionsService)
+
 	r := mux.NewRouter()
 	r.Methods("GET").Path("/api/v1/hello").Handler(handler.AppHandler(helloHandler))
-	r.Methods("POST").Path("/api/v1/setSelection").Handler(handler.AppHandler(selections.SubmitSelectionHandler))
-	r.Methods("GET").Path("/api/v1/setSelection").Handler(handler.AppHandler(selections.SubmitSelectionHandler))
+	r.Methods("POST").Path("/api/v1/setSelection").Handler(handler.AppHandler(selectionsAPI.SubmitSelectionsHandler))
 
 	http.Handle("/", catchAll(r))
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
+// TODO this function is benign and should be removed after testing or replaced with a proper health endpoint
 func helloHandler(w http.ResponseWriter, r *http.Request) *handler.AppError {
 	w.Write([]byte("{\"greeting\":\"Bienvenidos\"}"))
 	w.WriteHeader(200)
