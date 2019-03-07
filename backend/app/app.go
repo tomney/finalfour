@@ -17,15 +17,19 @@ import (
 //Tentative main
 func main() {
 	ctx := context.Background()
-	log.Printf("%v", ctx)
+	log.Printf(": %v", ctx)
 
 	port := "80"
 	if p := os.Getenv("PORT"); p != "" {
 		port = p
 	}
 
+	// Get the SQL database
+	db := GetSQLDB()
+
 	// Repository Layers
-	selectionsRepo := selectionsrepo.NewRepository("")
+	selectionsRepo := selectionsrepo.NewRepository(db)
+	selectionsRepo.List()
 
 	// Service Layers
 	selectionsService := selectionsservice.NewService(selectionsRepo)

@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"database/sql"
 	"log"
 
 	"github.com/tomney/finalfour/backend/app/selections"
@@ -14,18 +15,50 @@ type Interface interface {
 
 // Repository handles storing data/ stored data for selections
 type Repository struct {
-	sqlClient string
+	// sqlClient cloudsql.Client
+	db sql.DB
 }
 
 // NewRepository returns a new repository instance
-func NewRepository(sqlClient string) *Repository {
-	return &Repository{sqlClient: sqlClient}
+func NewRepository(sqlDB sql.DB) *Repository {
+	return &Repository{db: sqlDB}
 }
 
 // Create creates an entry for selections
 func (r *Repository) Create(selections selections.Selections) error {
 	//TODO  build this function
 	log.Printf("Creating the selections entry.")
+	return nil
+}
+
+// List gets the selection entries
+func (r *Repository) List() error {
+	// test that the cloud sql instance works
+	rows, err := r.db.Query("SELECT * FROM selections;")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var (
+			email   string
+			first   string
+			second  string
+			third   string
+			fourth  string
+			created string
+		)
+		if err := rows.Scan(&email, &first, &second, &third, &fourth, &created); err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("email: %s", email)
+		log.Printf("first: %s", first)
+		log.Printf("second: %s", second)
+		log.Printf("third: %s", third)
+		log.Printf("fourth: %s", fourth)
+		log.Printf("created: %s", created)
+	}
 	return nil
 }
 

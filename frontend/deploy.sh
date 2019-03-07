@@ -1,3 +1,6 @@
+# Install the node module dependencies
+npm install
+
 # Build the angular project
 ng build
 

@@ -39,3 +39,14 @@ The status of the service can be monitored via:
 ```
 kubectl describe service finalfour-frontend
 ```
+
+To use the Cloud SQL database secrets will need to be established for the username and password. Enter the username of the Cloud SQL user as a string in a file called `username.txt`. Do the same for the password in a file called `password.txt`. These secrets can be created on your kubernetes cluster using:
+```
+kubectl create secret generic db-user-pass --from-file=./username.txt --from-file=./password.txt
+```
+These values will be created as environment variables in `backend.yaml`.
+
+We will also need the Cloud Database certificates to be created as a Kubernetes secret. Gather the `client-cert.pem`, `client-key.pem` and `server-ca.pem` files into one folder and run:
+```
+kubectl create secret generic db-user-pass --from-file=./client-cert.pem --from-file=./client-key.pem --from-file=./server-ca.pem
+```
