@@ -6,8 +6,6 @@ RUN apk add --no-cache ca-certificates
 
 COPY . $GOPATH/src/$pkg
 
-# COPY ./certs $GOPATH/src/$pkg/app/certs/
-
 RUN set -ex \
       && apk add --no-cache --virtual .build-deps \
               git \

@@ -41,7 +41,7 @@ func main() {
 	r.Methods("GET").Path("/api/v1/hello").Handler(handler.AppHandler(helloHandler))
 	r.Methods("POST").Path("/api/v1/setSelection").Handler(handler.AppHandler(selectionsAPI.SubmitSelectionsHandler))
 
-	http.Handle("/", catchAll(r))
+	http.Handle("/", handlers.CombinedLoggingHandler(os.Stderr, r))
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
@@ -51,9 +51,4 @@ func helloHandler(w http.ResponseWriter, r *http.Request) *handler.AppError {
 	w.Write([]byte("{\"greeting\":\"Bienvenidos\"}"))
 	w.WriteHeader(200)
 	return nil
-}
-
-func catchAll(r *mux.Router) http.Handler {
-	log.Printf("Well this shit isnt working but at least you are catching results")
-	return handlers.CombinedLoggingHandler(os.Stderr, r)
 }

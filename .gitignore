@@ -8,8 +8,8 @@
 # dependencies
 /frontend/node_modules
 
-# database access
-/backend/certs/*
+# dev scripts and files
+/dev/*
 
 # IDEs and editors
 /.idea
