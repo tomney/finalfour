@@ -29,7 +29,6 @@ func main() {
 
 	// Repository Layers
 	selectionsRepo := selectionsrepo.NewRepository(db)
-	selectionsRepo.List()
 
 	// Service Layers
 	selectionsService := selectionsservice.NewService(selectionsRepo)

@@ -45,7 +45,8 @@ func GetSQLDB() sql.DB {
 	}
 
 	// SQL Client
-	datasource := fmt.Sprintf("%s:%s@tcp(35.203.13.40:3306)/finalfour?tls=custom", username, password)
+	databasePublicIP := "35.203.13.40"
+	datasource := fmt.Sprintf("%s:%s@tcp(%s:3306)/finalfour?tls=custom", username, password, databasePublicIP)
 	db, err := sql.Open("mysql", datasource)
 	return *db
 }
