@@ -22,6 +22,5 @@ func NewService(repo repository.Interface) *Service {
 
 // Create creates a selections entry
 func (s *Service) Create(selections selections.Selections) error {
-	//TODO  build this function
 	return s.repo.Create(selections)
 }
