@@ -43,14 +43,14 @@ func (r *Repository) Create(selections selections.Selections) error {
 
 	insertStatement := `
 	INSERT INTO selections (email, first_pick, second_pick, third_pick, fourth_pick, created)
-		VALUES(?, ?, ?, ?, ?, DATE(NOW())
+		VALUES(?, ?, ?, ?, ?, DATE(NOW()))
 	`
 	stmt, err := r.db.Prepare(insertStatement)
 	if err != nil {
 		log.Printf("Unable to prepare the statement to insert a selection")
 		return err
 	}
-	_, err = stmt.Exec(selections.Email, selections.Teams[0], selections.Teams[1], selections.Teams[2], selections.Teams[3])
+	_, err = stmt.Exec(selections.Email, selections.Teams[0].ID, selections.Teams[1].ID, selections.Teams[2].ID, selections.Teams[3].ID)
 	if err != nil {
 		log.Printf("Error occured while trying to insert a selections entry")
 		return err
@@ -87,6 +87,9 @@ func (r *Repository) Get(email string) (*selections.Selections, error) {
 	`
 	var first, second, third, fourth, created string
 	err := r.db.QueryRow(queryStatement, email).Scan(&email, &first, &second, &third, &fourth, &created)
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
 	if err != nil {
 		log.Printf("Unable to get selections for email: %s", email)
 		return nil, err

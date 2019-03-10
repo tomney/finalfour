@@ -8,6 +8,7 @@ import (
 	"github.com/tomney/finalfour/backend/app/handler"
 	model "github.com/tomney/finalfour/backend/app/selections"
 	"github.com/tomney/finalfour/backend/app/selections/service"
+	"github.com/tomney/finalfour/backend/app/team"
 )
 
 // Interface implements the methods to interact with selections
@@ -36,7 +37,7 @@ func (h *Handler) SubmitSelectionsHandler(w http.ResponseWriter, r *http.Request
 	}
 	selections := model.Selections{
 		Email: selectionsRequest.Email,
-		Teams: []model.Team{
+		Teams: []team.Team{
 			{ID: selectionsRequest.Teams[0].ID, ImageURL: selectionsRequest.Teams[0].ImageURL, Name: selectionsRequest.Teams[0].Name},
 			{ID: selectionsRequest.Teams[1].ID, ImageURL: selectionsRequest.Teams[1].ImageURL, Name: selectionsRequest.Teams[1].Name},
 			{ID: selectionsRequest.Teams[2].ID, ImageURL: selectionsRequest.Teams[2].ImageURL, Name: selectionsRequest.Teams[2].Name},

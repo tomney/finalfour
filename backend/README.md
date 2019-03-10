@@ -48,5 +48,5 @@ These values will be created as environment variables in `backend.yaml`.
 
 We will also need the Cloud Database certificates to be created as a Kubernetes secret. Gather the `client-cert.pem`, `client-key.pem` and `server-ca.pem` files into one folder and run:
 ```
-kubectl create secret generic db-user-pass --from-file=./client-cert.pem --from-file=./client-key.pem --from-file=./server-ca.pem
+kubectl create secret generic db-certs --from-file=./client-cert.pem --from-file=./client-key.pem --from-file=./server-ca.pem
 ```
