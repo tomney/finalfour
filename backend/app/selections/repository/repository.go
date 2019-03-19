@@ -12,7 +12,7 @@ type Interface interface {
 	Create(selections selections.Selections) error
 	Delete(email string) error
 	Get(email string) ([]string, error)
-	List() ([]selections.Selections, error)
+	List() ([]Selections, error)
 }
 
 // Repository handles storing data/ stored data for selections
@@ -84,32 +84,23 @@ func (r *Repository) Get(email string) ([]string, error) {
 }
 
 // List gets the selection entries
-func (r *Repository) List() ([]selections.Selections, error) {
+func (r *Repository) List() ([]Selections, error) {
 	// test that the cloud sql instance works
 	rows, err := r.db.Query("SELECT * FROM selections;")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer rows.Close()
+
+	var allSelections []Selections
 	for rows.Next() {
-		var (
-			email   string
-			first   string
-			second  string
-			third   string
-			fourth  string
-			created string
-		)
-		if err := rows.Scan(&email, &first, &second, &third, &fourth, &created); err != nil {
+		var s Selections
+		var first, second, third, fourth string
+		if err := rows.Scan(&s.Email, &first, &second, &third, &fourth, &s.Created); err != nil {
 			log.Fatal(err)
 		}
-		log.Printf("email: %s", email)
-		log.Printf("first: %s", first)
-		log.Printf("second: %s", second)
-		log.Printf("third: %s", third)
-		log.Printf("fourth: %s", fourth)
-		log.Printf("created: %s", created)
+		s.TeamIDs = append(append(append(append(s.TeamIDs, first), second), third), fourth)
+		allSelections = append(allSelections, s)
 	}
-	//TODO actually return selections
-	return nil, nil
+	return allSelections, nil
 }
