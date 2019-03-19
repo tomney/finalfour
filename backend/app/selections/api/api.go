@@ -13,7 +13,8 @@ import (
 
 // Interface implements the methods to interact with selections
 type Interface interface {
-	SubmitSelectionHandler(model.Selections) error
+	SubmitSelectionHandler(w http.ResponseWriter, r *http.Request) *handler.AppError
+	ListSelectionsHandler(w http.ResponseWriter) *handler.AppError
 }
 
 // Handler handles requests for selections
@@ -52,6 +53,31 @@ func (h *Handler) SubmitSelectionsHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	w.Write([]byte("{}"))
+	w.WriteHeader(200)
+	return nil
+}
+
+// ListSelectionsHandler handles requests to submit final four selections
+func (h *Handler) ListSelectionsHandler(w http.ResponseWriter) *handler.AppError {
+	log.Printf("List selections handler called")
+
+	//Hardcode selection responses for now
+	selection1 := model.Stub
+	selection2 := model.Stub
+	selections := []model.Selections{selection1, selection2}
+
+	_, err := h.service.List()
+	if err != nil {
+		log.Printf("An error occurred trying to list the selections.")
+		return handler.AppErrorf(err, 500, err.Error())
+	}
+
+	responseBody, err := json.Marshal(selections)
+	if err != nil {
+		log.Printf("Unable to marshal the selection list to JSON")
+		return handler.AppErrorf(err, 500, "Unable to marshal the selection list to JSON: %v", err)
+	}
+	w.Write(responseBody)
 	w.WriteHeader(200)
 	return nil
 }

@@ -10,6 +10,7 @@ import (
 // Interface implements the methods to interact with selections
 type Interface interface {
 	Create(selections.Selections) error
+	List() ([]selections.Selections, error)
 }
 
 // Service handles the collection and alteration of selections
@@ -37,4 +38,10 @@ func (s *Service) Create(selections selections.Selections) error {
 		}
 	}
 	return s.repo.Create(selections)
+}
+
+// List lists the selections
+func (s *Service) List() ([]selections.Selections, error) {
+	//TODO implement the service layer (will probably combine teams and selection data)
+	return s.repo.List()
 }

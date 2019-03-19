@@ -12,7 +12,7 @@ type Interface interface {
 	Create(selections selections.Selections) error
 	Delete(email string) error
 	Get(email string) ([]string, error)
-	List() error
+	List() ([]selections.Selections, error)
 }
 
 // Repository handles storing data/ stored data for selections
@@ -84,7 +84,7 @@ func (r *Repository) Get(email string) ([]string, error) {
 }
 
 // List gets the selection entries
-func (r *Repository) List() error {
+func (r *Repository) List() ([]selections.Selections, error) {
 	// test that the cloud sql instance works
 	rows, err := r.db.Query("SELECT * FROM selections;")
 	if err != nil {
@@ -110,5 +110,6 @@ func (r *Repository) List() error {
 		log.Printf("fourth: %s", fourth)
 		log.Printf("created: %s", created)
 	}
-	return nil
+	//TODO actually return selections
+	return nil, nil
 }

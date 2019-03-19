@@ -23,3 +23,26 @@ func (_m *Interface) Create(_a0 selections.Selections) error {
 
 	return r0
 }
+
+// List provides a mock function with given fields:
+func (_m *Interface) List() ([]selections.Selections, error) {
+	ret := _m.Called()
+
+	var r0 []selections.Selections
+	if rf, ok := ret.Get(0).(func() []selections.Selections); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]selections.Selections)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func() error); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}

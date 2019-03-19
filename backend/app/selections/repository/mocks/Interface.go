@@ -63,15 +63,24 @@ func (_m *Interface) Get(email string) ([]string, error) {
 }
 
 // List provides a mock function with given fields:
-func (_m *Interface) List() error {
+func (_m *Interface) List() ([]selections.Selections, error) {
 	ret := _m.Called()
 
-	var r0 error
-	if rf, ok := ret.Get(0).(func() error); ok {
+	var r0 []selections.Selections
+	if rf, ok := ret.Get(0).(func() []selections.Selections); ok {
 		r0 = rf()
 	} else {
-		r0 = ret.Error(0)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]selections.Selections)
+		}
 	}
 
-	return r0
+	var r1 error
+	if rf, ok := ret.Get(1).(func() error); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
