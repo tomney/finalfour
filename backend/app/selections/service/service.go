@@ -42,6 +42,12 @@ func (s *Service) Create(selections selections.Selections) error {
 
 // List lists the selections
 func (s *Service) List() ([]selections.Selections, error) {
+	//Hardcode selection responses for now
+	selection1 := selections.Stub
+	selection2 := selections.Stub
+	selections := []selections.Selections{selection1, selection2}
+
 	//TODO implement the service layer (will probably combine teams and selection data)
-	return s.repo.List()
+	_, _ = s.repo.List()
+	return selections, nil
 }

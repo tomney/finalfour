@@ -61,12 +61,7 @@ func (h *Handler) SubmitSelectionsHandler(w http.ResponseWriter, r *http.Request
 func (h *Handler) ListSelectionsHandler(w http.ResponseWriter, r *http.Request) *handler.AppError {
 	log.Printf("List selections handler called")
 
-	//Hardcode selection responses for now
-	selection1 := model.Stub
-	selection2 := model.Stub
-	selections := []model.Selections{selection1, selection2}
-
-	_, err := h.service.List()
+	selections, err := h.service.List()
 	if err != nil {
 		log.Printf("An error occurred trying to list the selections.")
 		return handler.AppErrorf(err, 500, err.Error())
