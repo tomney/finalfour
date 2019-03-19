@@ -58,7 +58,7 @@ func (h *Handler) SubmitSelectionsHandler(w http.ResponseWriter, r *http.Request
 }
 
 // ListSelectionsHandler handles requests to submit final four selections
-func (h *Handler) ListSelectionsHandler(w http.ResponseWriter) *handler.AppError {
+func (h *Handler) ListSelectionsHandler(w http.ResponseWriter, r *http.Request) *handler.AppError {
 	log.Printf("List selections handler called")
 
 	//Hardcode selection responses for now

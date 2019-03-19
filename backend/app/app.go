@@ -39,6 +39,7 @@ func main() {
 	r := mux.NewRouter()
 	r.Methods("GET").Path("/api/v1/hello").Handler(handler.AppHandler(helloHandler))
 	r.Methods("POST").Path("/api/v1/setSelection").Handler(handler.AppHandler(selectionsAPI.SubmitSelectionsHandler))
+	r.Methods("GET").Path("/api/v1/listSelections").Handler(handler.AppHandler(selectionsAPI.ListSelectionsHandler))
 
 	http.Handle("/", handlers.CombinedLoggingHandler(os.Stderr, r))
 
