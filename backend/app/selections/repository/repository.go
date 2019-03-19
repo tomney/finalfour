@@ -5,14 +5,13 @@ import (
 	"log"
 
 	"github.com/tomney/finalfour/backend/app/selections"
-	"github.com/tomney/finalfour/backend/app/team"
 )
 
 // Interface implements the methods to store data/ mutate stored data for selections
 type Interface interface {
 	Create(selections selections.Selections) error
-	delete(email string) error
-	Get(email string) (*selections.Selections, error)
+	Delete(email string) error
+	Get(email string) ([]string, error)
 	List() error
 }
 
@@ -22,28 +21,14 @@ type Repository struct {
 }
 
 // NewRepository returns a new repository instance
-func NewRepository(sqlDB sql.DB) *Repository {
+func NewRepository(sqlDB sql.DB) Interface {
 	return &Repository{db: sqlDB}
 }
 
 // Create creates an entry for selections
 func (r *Repository) Create(selections selections.Selections) error {
-	existingSelections, err := r.Get(selections.Email)
-	if err != nil {
-		log.Printf("An error occurred trying to get the existing selections")
-		return err
-	}
-	if existingSelections != nil {
-		err := r.delete(selections.Email)
-		if err != nil {
-			log.Printf("Unable to create new selections as an error occurred deleting old selections")
-			return err
-		}
-	}
-
-	insertStatement := `
-	INSERT INTO selections (email, first_pick, second_pick, third_pick, fourth_pick, created)
-		VALUES(?, ?, ?, ?, ?, DATE(NOW()))
+	insertStatement := `INSERT INTO selections (email, first_pick, second_pick, third_pick, fourth_pick, created)
+			VALUES(?, ?, ?, ?, ?, DATE(NOW()))
 	`
 	stmt, err := r.db.Prepare(insertStatement)
 	if err != nil {
@@ -59,7 +44,8 @@ func (r *Repository) Create(selections selections.Selections) error {
 	return nil
 }
 
-func (r *Repository) delete(email string) error {
+// Delete deletes a selections entry
+func (r *Repository) Delete(email string) error {
 	deleteStatement := `
 		DELETE FROM selections
 		WHERE email = ?
@@ -79,7 +65,7 @@ func (r *Repository) delete(email string) error {
 }
 
 // Get gets the existing selections entry for a given email if it exists
-func (r *Repository) Get(email string) (*selections.Selections, error) {
+func (r *Repository) Get(email string) ([]string, error) {
 	queryStatement := `
 		SELECT email, first_pick, second_pick, third_pick, fourth_pick, created
 		FROM selections
@@ -94,10 +80,7 @@ func (r *Repository) Get(email string) (*selections.Selections, error) {
 		log.Printf("Unable to get selections for email: %s", email)
 		return nil, err
 	}
-	return &selections.Selections{
-		Email: email,
-		Teams: []team.Team{{ID: first}, {ID: second}, {ID: third}, {ID: fourth}},
-	}, nil
+	return []string{first, second, third, fourth}, nil
 }
 
 // List gets the selection entries

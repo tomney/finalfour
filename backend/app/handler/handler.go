@@ -27,10 +27,10 @@ func (fn AppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 //AppErrorf creates an app error
-func AppErrorf(err error, format string, v ...interface{}) *AppError {
+func AppErrorf(err error, code int, format string, v ...interface{}) *AppError {
 	return &AppError{
 		Error:   err,
 		Message: fmt.Sprintf(format, v...),
-		Code:    500,
+		Code:    code,
 	}
 }

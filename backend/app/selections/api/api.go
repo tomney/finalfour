@@ -48,6 +48,7 @@ func (h *Handler) SubmitSelectionsHandler(w http.ResponseWriter, r *http.Request
 	err = h.service.Create(selections)
 	if err != nil {
 		log.Printf("An error occurred trying to create the selections entry.")
+		return handler.AppErrorf(err, 500, err.Error())
 	}
 
 	w.Write([]byte("{}"))

@@ -1,6 +1,8 @@
 package service
 
 import (
+	"log"
+
 	"github.com/tomney/finalfour/backend/app/selections"
 	"github.com/tomney/finalfour/backend/app/selections/repository"
 )
@@ -22,5 +24,17 @@ func NewService(repo repository.Interface) *Service {
 
 // Create creates a selections entry
 func (s *Service) Create(selections selections.Selections) error {
+	teamIDs, err := s.repo.Get(selections.Email)
+	if err != nil {
+		log.Printf("An error occurred trying to get the existing selections")
+		return err
+	}
+	if teamIDs != nil {
+		err := s.repo.Delete(selections.Email)
+		if err != nil {
+			log.Printf("Unable to create new selections as an error occurred deleting old selections")
+			return err
+		}
+	}
 	return s.repo.Create(selections)
 }
