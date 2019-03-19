@@ -6,3 +6,10 @@ type Selections struct {
 	TeamIDs []string
 	Created string
 }
+
+// SelectionsStub stubs out a repository representation of a set of selections
+var SelectionsStub = Selections{
+	Email:   "dummy@gmail.com",
+	TeamIDs: []string{"goodTeam", "badTeam", "dumbTeam", "buttTeam"},
+	Created: "2019-03-19",
+}

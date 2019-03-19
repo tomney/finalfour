@@ -157,3 +157,30 @@ func (s *getTestSuite) TestGetReturnsResponseIfQueryIsSuccessful() {
 func TestGetTestSuite(t *testing.T) {
 	suite.Run(t, new(getTestSuite))
 }
+
+type listTestSuite struct {
+	suite.Suite
+	repo           Interface
+	mock           sqlmock.Sqlmock
+	testSelections selections.Selections
+}
+
+func (s *listTestSuite) SetupTest() {
+	db, mock, _ := sqlmock.New()
+	s.repo = NewRepository(*db)
+	s.mock = mock
+	s.testSelections = selections.Stub
+}
+
+func (s *listTestSuite) TestReturnsNilIfQueryComesBackEmpty() {
+	selectStatement := "SELECT .* FROM selections"
+	s.mock.ExpectQuery(selectStatement).WillReturnError(sql.ErrNoRows)
+
+	teamIDs, err := s.repo.Get(s.testSelections.Email)
+	s.Assert().Nil(teamIDs)
+	s.Assert().Nil(err)
+}
+
+func TestListTestSuite(t *testing.T) {
+	suite.Run(t, new(listTestSuite))
+}
