@@ -176,9 +176,32 @@ func (s *listTestSuite) TestReturnsNilIfQueryComesBackEmpty() {
 	selectStatement := "SELECT .* FROM selections"
 	s.mock.ExpectQuery(selectStatement).WillReturnError(sql.ErrNoRows)
 
-	teamIDs, err := s.repo.Get(s.testSelections.Email)
-	s.Assert().Nil(teamIDs)
+	allSelections, err := s.repo.List()
+	s.Assert().Nil(allSelections)
 	s.Assert().Nil(err)
+}
+
+func (s *listTestSuite) TestReturnsErrIfQueryReturnsError() {
+	selectStatement := "SELECT .* FROM selections"
+	expectedError := fmt.Errorf("Can't list it")
+	s.mock.ExpectQuery(selectStatement).WillReturnError(expectedError)
+
+	allSelections, err := s.repo.List()
+	s.Assert().Nil(allSelections)
+	s.Assert().EqualError(err, expectedError.Error())
+}
+
+func (s *listTestSuite) TestAppendsSelections() {
+	selectStatement := "SELECT .* FROM selections"
+	columns := []string{"email", "first", "second", "third", "fourth", "created"}
+	rows := sqlmock.NewRows(columns).
+		AddRow(SelectionsStub.Email, SelectionsStub.TeamIDs[0], SelectionsStub.TeamIDs[1], SelectionsStub.TeamIDs[2], SelectionsStub.TeamIDs[3], SelectionsStub.Created).
+		AddRow(SelectionsStub.Email, SelectionsStub.TeamIDs[0], SelectionsStub.TeamIDs[1], SelectionsStub.TeamIDs[2], SelectionsStub.TeamIDs[3], SelectionsStub.Created)
+	expected := []Selections{SelectionsStub, SelectionsStub}
+	s.mock.ExpectQuery(selectStatement).WillReturnRows(rows)
+	allSelections, err := s.repo.List()
+	s.Assert().Nil(err)
+	s.Assert().EqualValues(allSelections, expected)
 }
 
 func TestListTestSuite(t *testing.T) {

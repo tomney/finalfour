@@ -87,8 +87,11 @@ func (r *Repository) Get(email string) ([]string, error) {
 func (r *Repository) List() ([]Selections, error) {
 	// test that the cloud sql instance works
 	rows, err := r.db.Query("SELECT * FROM selections;")
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	defer rows.Close()
 
