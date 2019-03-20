@@ -51,6 +51,7 @@ func (s *Service) List() ([]model.Selections, error) {
 	var selections []model.Selections
 	for _, repoSelection := range repoSelections {
 		var selection model.Selections
+		selection.Email = repoSelection.Email
 		for _, teamID := range repoSelection.TeamIDs {
 			team, err := s.team.Get(teamID)
 			if err != nil {

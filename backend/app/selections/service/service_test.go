@@ -101,6 +101,26 @@ func (s *listTestSuite) TestReturnsErrorIfCallToGetTeamFails() {
 	s.Assert().EqualError(err, expectedError.Error())
 }
 
+func (s *listTestSuite) TestReturnsSelections() {
+	repositorySelections := []repository.Selections{
+		{
+			Email:   selections.Stub.Email,
+			TeamIDs: []string{selections.Stub.Teams[0].ID, selections.Stub.Teams[1].ID, selections.Stub.Teams[2].ID, selections.Stub.Teams[3].ID},
+			Created: "",
+		},
+	}
+
+	s.repo.On("List", mock.Anything).
+		Return(repositorySelections, nil)
+	s.team.On("Get", selections.Stub.Teams[0].ID).Return(selections.Stub.Teams[0], nil)
+	s.team.On("Get", selections.Stub.Teams[1].ID).Return(selections.Stub.Teams[1], nil)
+	s.team.On("Get", selections.Stub.Teams[2].ID).Return(selections.Stub.Teams[2], nil)
+	s.team.On("Get", selections.Stub.Teams[3].ID).Return(selections.Stub.Teams[3], nil)
+
+	allSelections, err := s.service.List()
+	s.Assert().EqualValues(allSelections, []selections.Selections{selections.Stub})
+	s.Assert().Nil(err)
+}
 func TestListTestSuite(t *testing.T) {
 	suite.Run(t, new(listTestSuite))
 }
