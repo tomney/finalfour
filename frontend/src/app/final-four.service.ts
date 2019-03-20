@@ -12,12 +12,15 @@ const httpOptions = {
 })
 export class FinalFourService {
   setSelectionUrl = 'api/v1/setSelection'
+  listSelectionUrl = 'api/v1/listSelections'
 
   constructor(private httpClient: HttpClient) { }
 
   submitSelection(ffs: FinalFourSelection): Observable<any> {
-    //TODO call out to the backend to submit the finalFour
-    console.log("Nice picks!")
     return this.httpClient.post<FinalFourSelection>(this.setSelectionUrl, ffs, httpOptions);
+  }
+
+  listSelections(): Observable<any> {
+    return this.httpClient.get(this.listSelectionUrl, httpOptions);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FinalFourSelection} from '../final-four-selection';
+import { FinalFourSelection } from '../final-four-selection';
+import { FinalFourService } from '../final-four.service';
 
 @Component({
   selector: 'app-list-selections',
@@ -9,15 +10,16 @@ import {FinalFourSelection} from '../final-four-selection';
 export class ListSelectionsComponent implements OnInit {
   selections: FinalFourSelection[]
 
-  constructor() { }
+  constructor(private finalFourService: FinalFourService) { }
 
   ngOnInit() {
     this.listSelections()
   }
 
   listSelections(): void {
-    //TODO write a list selections function
-    console.log("ooh we are listin those selections")
+    this.finalFourService.listSelections().subscribe(
+      data => console.log(data)
+    )
   }
 
 

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule, MatButtonModule, MatCheckboxModule, MatSnackBarModule,  MatFormFieldModule, MatInputModule} from '@angular/material'
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { AppService } from './app.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FourSelectorComponent } from './four-selector/four-selector.component';
@@ -16,6 +17,7 @@ import { ListSelectionsComponent } from './list-selections/list-selections.compo
     ListSelectionsComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
