@@ -7,11 +7,13 @@ import { AppService } from './app.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FourSelectorComponent } from './four-selector/four-selector.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ListSelectionsComponent } from './list-selections/list-selections.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FourSelectorComponent
+    FourSelectorComponent,
+    ListSelectionsComponent
   ],
   imports: [
     BrowserModule,

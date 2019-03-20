@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Team } from '../team';
 import { TeamsService } from '../teams.service';
-import { FinalFourSelection } from './final-four-selection';
+import { FinalFourSelection } from '../final-four-selection';
 import { MatCheckboxChange } from '@angular/material';
 import { MatSnackBar } from '@angular/material';
 import { FormControl } from '@angular/forms';

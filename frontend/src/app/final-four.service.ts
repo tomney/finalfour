@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FinalFourSelection } from './four-selector/final-four-selection'
+import { FinalFourSelection } from './final-four-selection'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
