@@ -85,7 +85,6 @@ func (r *Repository) Get(email string) ([]string, error) {
 
 // List gets the selection entries
 func (r *Repository) List() ([]Selections, error) {
-	// test that the cloud sql instance works
 	rows, err := r.db.Query("SELECT * FROM selections;")
 	if err == sql.ErrNoRows {
 		return nil, nil

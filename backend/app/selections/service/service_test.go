@@ -7,12 +7,15 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
 	"github.com/tomney/finalfour/backend/app/selections"
+	"github.com/tomney/finalfour/backend/app/selections/repository"
 	repomocks "github.com/tomney/finalfour/backend/app/selections/repository/mocks"
+	teamservice "github.com/tomney/finalfour/backend/app/team/service/mocks"
 )
 
 type createTestSuite struct {
 	suite.Suite
 	repo           *repomocks.Interface
+	team           *teamservice.Interface
 	service        *Service
 	selectionsStub selections.Selections
 	teamIDs        []string
@@ -20,7 +23,8 @@ type createTestSuite struct {
 
 func (s *createTestSuite) SetupTest() {
 	s.repo = &repomocks.Interface{}
-	s.service = NewService(s.repo)
+	s.team = &teamservice.Interface{}
+	s.service = NewService(s.repo, s.team)
 	s.selectionsStub = selections.Stub
 	s.teamIDs = []string{
 		s.selectionsStub.Teams[0].ID,
@@ -55,4 +59,48 @@ func (s *createTestSuite) TestReturnsErrorIfUnableToDeleteExistingEntry() {
 
 func TestCreateTestSuite(t *testing.T) {
 	suite.Run(t, new(createTestSuite))
+}
+
+type listTestSuite struct {
+	suite.Suite
+	repo           *repomocks.Interface
+	team           *teamservice.Interface
+	service        *Service
+	selectionsStub selections.Selections
+	teamIDs        []string
+}
+
+func (s *listTestSuite) SetupTest() {
+	s.repo = &repomocks.Interface{}
+	s.team = &teamservice.Interface{}
+	s.service = NewService(s.repo, s.team)
+	s.selectionsStub = selections.Stub
+	s.teamIDs = []string{
+		s.selectionsStub.Teams[0].ID,
+		s.selectionsStub.Teams[1].ID,
+		s.selectionsStub.Teams[2].ID,
+		s.selectionsStub.Teams[3].ID,
+	}
+}
+
+func (s *listTestSuite) TestReturnsErrorIfCallToListFails() {
+	expectedError := fmt.Errorf("Can't list it")
+	s.repo.On("List", mock.Anything).Return(nil, expectedError)
+	selections, err := s.service.List()
+	s.Assert().Nil(selections)
+	s.Assert().EqualError(err, expectedError.Error())
+}
+
+func (s *listTestSuite) TestReturnsErrorIfCallToGetTeamFails() {
+	expectedError := fmt.Errorf("Can't get it")
+	s.repo.On("List", mock.Anything).
+		Return([]repository.Selections{repository.SelectionsStub}, expectedError)
+	s.team.On("Get", mock.Anything).Return(nil, expectedError)
+	selections, err := s.service.List()
+	s.Assert().Nil(selections)
+	s.Assert().EqualError(err, expectedError.Error())
+}
+
+func TestListTestSuite(t *testing.T) {
+	suite.Run(t, new(listTestSuite))
 }

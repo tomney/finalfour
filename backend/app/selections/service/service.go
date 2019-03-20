@@ -3,28 +3,30 @@ package service
 import (
 	"log"
 
-	"github.com/tomney/finalfour/backend/app/selections"
+	model "github.com/tomney/finalfour/backend/app/selections"
 	"github.com/tomney/finalfour/backend/app/selections/repository"
+	teamservice "github.com/tomney/finalfour/backend/app/team/service"
 )
 
 // Interface implements the methods to interact with selections
 type Interface interface {
-	Create(selections.Selections) error
-	List() ([]selections.Selections, error)
+	Create(model.Selections) error
+	List() ([]model.Selections, error)
 }
 
 // Service handles the collection and alteration of selections
 type Service struct {
 	repo repository.Interface
+	team teamservice.Interface
 }
 
 // NewService returns a new service instance
-func NewService(repo repository.Interface) *Service {
-	return &Service{repo: repo}
+func NewService(repo repository.Interface, team teamservice.Interface) *Service {
+	return &Service{repo: repo, team: team}
 }
 
 // Create creates a selections entry
-func (s *Service) Create(selections selections.Selections) error {
+func (s *Service) Create(selections model.Selections) error {
 	teamIDs, err := s.repo.Get(selections.Email)
 	if err != nil {
 		log.Printf("An error occurred trying to get the existing selections")
@@ -41,13 +43,22 @@ func (s *Service) Create(selections selections.Selections) error {
 }
 
 // List lists the selections
-func (s *Service) List() ([]selections.Selections, error) {
-	//Hardcode selection responses for now
-	selection1 := selections.Stub
-	selection2 := selections.Stub
-	selections := []selections.Selections{selection1, selection2}
-
-	//TODO implement the service layer (will probably combine teams and selection data)
-	_, _ = s.repo.List()
+func (s *Service) List() ([]model.Selections, error) {
+	repoSelections, err := s.repo.List()
+	if err != nil {
+		return nil, err
+	}
+	var selections []model.Selections
+	for _, repoSelection := range repoSelections {
+		var selection model.Selections
+		for _, teamID := range repoSelection.TeamIDs {
+			team, err := s.team.Get(teamID)
+			if err != nil {
+				return nil, err
+			}
+			selection.Teams = append(selection.Teams, team)
+		}
+		selections = append(selections, selection)
+	}
 	return selections, nil
 }

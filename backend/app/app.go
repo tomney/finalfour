@@ -12,6 +12,7 @@ import (
 	selectionsapi "github.com/tomney/finalfour/backend/app/selections/api"
 	selectionsrepo "github.com/tomney/finalfour/backend/app/selections/repository"
 	selectionsservice "github.com/tomney/finalfour/backend/app/selections/service"
+	teamservice "github.com/tomney/finalfour/backend/app/team/service"
 )
 
 //Tentative main
@@ -31,7 +32,8 @@ func main() {
 	selectionsRepo := selectionsrepo.NewRepository(db)
 
 	// Service Layers
-	selectionsService := selectionsservice.NewService(selectionsRepo)
+	teamService := teamservice.NewService()
+	selectionsService := selectionsservice.NewService(selectionsRepo, teamService)
 
 	// Handler Layers
 	selectionsAPI := selectionsapi.NewHandler(selectionsService)
