@@ -1,7 +1,11 @@
 <div class="mat-app-background basic-container">
-    <nav>
-        <a routerLink="/selector">Selector</a>
-        <a routerLink="/selections">Selections</a>
-    </nav>
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <nav>
+                <button mat-button><a routerLink="/selector">Selector</a></button>
+                <button mat-button><a routerLink="/selections">Selections</a></button>
+            </nav>
+        </mat-toolbar-row>
+    </mat-toolbar>
     <router-outlet></router-outlet>
 </div>
