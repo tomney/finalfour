@@ -15,7 +15,7 @@ export class FinalFourSelection {
             return {valid: false, err: "Please select four teams"};
         }
         if(!this.hasValidEmail()){
-            return {valid: false, err: "Please enter an e-mail"};
+            return {valid: false, err: "Please enter your name"};
         }
         return {valid: true, err: ""};
     }
