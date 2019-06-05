@@ -15,7 +15,7 @@ import (
 	servicemocks "github.com/tomney/finalfour/backend/app/selections/service/mocks"
 )
 
-type apiTestSuite struct {
+type submitSelectionsTestSuite struct {
 	suite.Suite
 	service            *servicemocks.Interface
 	handler            *Handler
@@ -24,7 +24,7 @@ type apiTestSuite struct {
 	requestBody        SubmitSelectionsRequest
 }
 
-func (s *apiTestSuite) SetupTest() {
+func (s *submitSelectionsTestSuite) SetupTest() {
 	s.service = &servicemocks.Interface{}
 	s.handler = NewHandler(s.service)
 	s.selectionsStub = selections.Stub
@@ -40,7 +40,7 @@ func (s *apiTestSuite) SetupTest() {
 	}
 }
 
-func (s *apiTestSuite) TestCreateReturnsErrorIfServiceReturnsError() {
+func (s *submitSelectionsTestSuite) TestCreateReturnsErrorIfServiceReturnsError() {
 	jsonBody, _ := json.Marshal(s.requestBody)
 	request := httptest.NewRequest("POST", "/api/v1/setSelection", bytes.NewReader(jsonBody))
 	expectedError := fmt.Errorf("Can't create it")
@@ -50,7 +50,7 @@ func (s *apiTestSuite) TestCreateReturnsErrorIfServiceReturnsError() {
 	s.Assert().Equal(handlerError, expectedHandlerError)
 }
 
-func (s *apiTestSuite) TestListReturnsErrorIfServiceReturnsError() {
+func (s *submitSelectionsTestSuite) TestListReturnsErrorIfServiceReturnsError() {
 	request := httptest.NewRequest("GET", "/api/v1/listSelections", nil)
 	expectedError := fmt.Errorf("Can't list em")
 	expectedHandlerError := handler.AppErrorf(expectedError, 500, expectedError.Error())
@@ -59,6 +59,6 @@ func (s *apiTestSuite) TestListReturnsErrorIfServiceReturnsError() {
 	s.Assert().Equal(handlerError, expectedHandlerError)
 }
 
-func TestApiTestSuite(t *testing.T) {
-	suite.Run(t, new(apiTestSuite))
+func TestSubmitSelectionsTestSuite(t *testing.T) {
+	suite.Run(t, new(submitSelectionsTestSuite))
 }
