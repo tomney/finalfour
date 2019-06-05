@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -52,7 +53,7 @@ func (h *Handler) SubmitSelectionsHandler(w http.ResponseWriter, r *http.Request
 		return handler.AppErrorf(err, 500, err.Error())
 	}
 
-	w.Write([]byte("{}"))
+	fmt.Fprintf(w, "{}")
 	w.WriteHeader(200)
 	return nil
 }
@@ -72,7 +73,7 @@ func (h *Handler) ListSelectionsHandler(w http.ResponseWriter, r *http.Request) 
 		log.Printf("Unable to marshal the selection list to JSON")
 		return handler.AppErrorf(err, 500, "Unable to marshal the selection list to JSON: %v", err)
 	}
-	w.Write(responseBody)
+	fmt.Fprintf(w, string(responseBody))
 	w.WriteHeader(200)
 	return nil
 }
